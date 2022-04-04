@@ -9,4 +9,7 @@ import scrapy
 class HamropatroItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
-    pass
+    eng = scrapy.Field()
+    nep = scrapy.Field()
+    tithi = scrapy.Field()
+    events = scrapy.Field()

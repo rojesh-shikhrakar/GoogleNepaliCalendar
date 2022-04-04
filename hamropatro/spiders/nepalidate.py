@@ -1,5 +1,5 @@
 import scrapy
-
+from ..items import HamropatroItem
 
 class NepalidateSpider(scrapy.Spider):
     name = 'nepalidate'
@@ -16,6 +16,7 @@ class NepalidateSpider(scrapy.Spider):
         monthInd = 0
         started = False
         limit = int(getattr(self, 'limit', 12))
+        items = HamropatroItem()
 
         for block in blocks:
             nep = block.css(".nep::text").get()
@@ -34,12 +35,11 @@ class NepalidateSpider(scrapy.Spider):
                 if eng == '1':
                     monthInd = 1
 
-                yield {
-                    'eng': eng + ' ' + engMonths[monthInd],
-                    'nep' : nep + ' ' + nepMonth,
-                    'tithi': tithi,
-                    'events': events
-                    }
+                items['eng'] = eng + ' ' + engMonths[monthInd]
+                items['nep'] = nep + ' ' + nepMonth
+                items['tithi'] = tithi
+                items['events']= events
+                yield items
 
         nextPage = response.css(".arrowRight")[0].css("a::attr(href)").get()
         if (nextPage is not None) and (self.pageCounter < limit):
