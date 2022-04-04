@@ -15,6 +15,7 @@ class NepalidateSpider(scrapy.Spider):
         engMonths = temp[1][1:4] + ' ' + temp[1][-5:-1] , temp[1][5:8] + ' ' + temp[1][-5:-1]
         monthInd = 0
         started = False
+        limit = int(getattr(self, 'limit', 12))
 
         for block in blocks:
             nep = block.css(".nep::text").get()
@@ -41,7 +42,7 @@ class NepalidateSpider(scrapy.Spider):
                     }
 
         nextPage = response.css(".arrowRight")[0].css("a::attr(href)").get()
-        if (nextPage is not None) and (self.pageCounter <= 12):
+        if (nextPage is not None) and (self.pageCounter < limit):
             nextPage = response.urljoin(nextPage)
             self.pageCounter += 1
             yield scrapy.Request(nextPage, callback=self.parse)
