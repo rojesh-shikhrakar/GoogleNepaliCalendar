@@ -30,7 +30,7 @@ class NepalidateSpider(scrapy.Spider):
             # dates[eng + engMonths[monthInd]] = (nep + nepMonth, tithi, events)
 
             if started:
-                if eng == 1 :
+                if eng == '1':
                     monthInd = 1
 
                 yield {
